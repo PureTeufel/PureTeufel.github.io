@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-zfz.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-zfz.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GDB 学习1. GDB 调试程序的三种方式（从应用场景出发） gdb filename 直接调试编译后生成的二进制文件  gdb attach pid 调制某个正在运行的程序，通过任务管理命令（例如ps、top）获取pid  gdb filename corename core文件：一般在程序崩溃时会产生core文件 linux系统一般默认不开启崩溃产生core文件这一机制，可以使用命令 uli">
+<meta name="keywords" content="linux,shell,gdb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux_常用命令总结">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;08&#x2F;02&#x2F;GDB_%E8%B0%83%E8%AF%95%E6%B1%87%E6%80%BB&#x2F;index.html">
+<meta property="og:site_name" content="INFINITY">
+<meta property="og:description" content="GDB 学习1. GDB 调试程序的三种方式（从应用场景出发） gdb filename 直接调试编译后生成的二进制文件  gdb attach pid 调制某个正在运行的程序，通过任务管理命令（例如ps、top）获取pid  gdb filename corename core文件：一般在程序崩溃时会产生core文件 linux系统一般默认不开启崩溃产生core文件这一机制，可以使用命令 uli">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-16T08:51:07.323Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/02/GDB_%E8%B0%83%E8%AF%95%E6%B1%87%E6%80%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>linux_常用命令总结 | INFINITY</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">INFINITY</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/02/GDB_%E8%B0%83%E8%AF%95%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="PeaceZH">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="INFINITY">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux_常用命令总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-02 10:13:41" itemprop="dateCreated datePublished" datetime="2020-08-02T10:13:41+08:00">2020-08-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-16 16:51:07" itemprop="dateModified" datetime="2020-08-16T16:51:07+08:00">2020-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="GDB-学习"><a href="#GDB-学习" class="headerlink" title="GDB 学习"></a>GDB 学习</h2><h4 id="1-GDB-调试程序的三种方式（从应用场景出发）"><a href="#1-GDB-调试程序的三种方式（从应用场景出发）" class="headerlink" title="1. GDB 调试程序的三种方式（从应用场景出发）"></a>1. GDB 调试程序的三种方式（从应用场景出发）</h4><ul>
+<li><p>gdb filename</p>
+<p>直接调试编译后生成的二进制文件</p>
+</li>
+<li><p>gdb attach pid</p>
+<p>调制某个正在运行的程序，通过任务管理命令（例如ps、top）获取pid</p>
+</li>
+<li><p>gdb filename corename</p>
+<p>core文件：一般在程序崩溃时会产生core文件</p>
+<p>linux系统一般默认不开启崩溃产生core文件这一机制，可以使用命令 <code>ulimit</code> 进行查看、修改等操作</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<h4 id="2-GDB-常用调试命令一览"><a href="#2-GDB-常用调试命令一览" class="headerlink" title="2. GDB 常用调试命令一览"></a>2. GDB 常用调试命令一览</h4><table>
+<thead>
+<tr>
+<th align="center">命令名称</th>
+<th align="center">命令缩写</th>
+<th align="center">命令说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">run</td>
+<td align="center">r</td>
+<td align="center">运行一个程序</td>
+</tr>
+<tr>
+<td align="center">continue</td>
+<td align="center">c</td>
+<td align="center">让暂停的程序继续执行</td>
+</tr>
+<tr>
+<td align="center">next</td>
+<td align="center">n</td>
+<td align="center">运行到下一行，相当于step over</td>
+</tr>
+<tr>
+<td align="center">step</td>
+<td align="center">s</td>
+<td align="center">如果有函数调用，进入函数调用内部，相当于step into</td>
+</tr>
+<tr>
+<td align="center">until</td>
+<td align="center">u</td>
+<td align="center">运行到指定行停下来</td>
+</tr>
+<tr>
+<td align="center">finish</td>
+<td align="center">fi</td>
+<td align="center">结束当前调用函数，到上一层函数调用处</td>
+</tr>
+<tr>
+<td align="center">return</td>
+<td align="center">return</td>
+<td align="center">结束当前函数调用并返回指定值，到上一层函数调用处</td>
+</tr>
+<tr>
+<td align="center">jump</td>
+<td align="center">j</td>
+<td align="center">将当前程序执行流跳转到指定行或地址</td>
+</tr>
+<tr>
+<td align="center">print</td>
+<td align="center">p</td>
+<td align="center">打印变量或寄存器值</td>
+</tr>
+<tr>
+<td align="center">backtrace</td>
+<td align="center">bt</td>
+<td align="center">查看当前线程的调用堆栈</td>
+</tr>
+<tr>
+<td align="center">frame</td>
+<td align="center">f</td>
+<td align="center">切换到当前调用线程的制定堆栈，具体堆栈通过堆栈序号指定</td>
+</tr>
+<tr>
+<td align="center">thread</td>
+<td align="center">thread</td>
+<td align="center">切换到指定线程</td>
+</tr>
+<tr>
+<td align="center">break</td>
+<td align="center">b</td>
+<td align="center">添加断点</td>
+</tr>
+<tr>
+<td align="center">tbreak</td>
+<td align="center">tb</td>
+<td align="center">添加临时断点</td>
+</tr>
+<tr>
+<td align="center">delete</td>
+<td align="center">del</td>
+<td align="center">删除断点</td>
+</tr>
+<tr>
+<td align="center">enable</td>
+<td align="center">enable</td>
+<td align="center">启动某个断点</td>
+</tr>
+<tr>
+<td align="center">disable</td>
+<td align="center">disable</td>
+<td align="center">禁用某个断点</td>
+</tr>
+<tr>
+<td align="center">watch</td>
+<td align="center">watch</td>
+<td align="center">监视某一个变量或内存地址的值是否发生变化</td>
+</tr>
+<tr>
+<td align="center">list</td>
+<td align="center">l</td>
+<td align="center">显示源码</td>
+</tr>
+<tr>
+<td align="center">info</td>
+<td align="center">info</td>
+<td align="center">查看断点/线程等信息</td>
+</tr>
+<tr>
+<td align="center">ptype</td>
+<td align="center">ptype</td>
+<td align="center">查看变量类型</td>
+</tr>
+<tr>
+<td align="center">disassemble</td>
+<td align="center">dis</td>
+<td align="center">查看汇编代码</td>
+</tr>
+<tr>
+<td align="center">set args</td>
+<td align="center"></td>
+<td align="center">设置程序启动命令行参数</td>
+</tr>
+<tr>
+<td align="center">show args</td>
+<td align="center"></td>
+<td align="center">查看设置的命令行参数</td>
+</tr>
+</tbody></table>
+<h4 id="3-常用命令解析及对比"><a href="#3-常用命令解析及对比" class="headerlink" title="3. 常用命令解析及对比"></a>3. 常用命令解析及对比</h4><ul>
+<li><p><code>next</code> VS <code>step</code> </p>
+<p>跳转到下一条指令执行处，按 <code>Enter</code> 键可以代替</p>
+</li>
+<li><p><code>finish</code> VS <code>return</code></p>
+<p>finish 命令会执行函数到正常退出该函数</p>
+<p>return 命令会立即结束执行当前函数并返回</p>
+</li>
+<li><p><code>until</code> VS <code>jump</code></p>
+<p>until 跳转到指定行会快速执行完中间的代码（跳完停止）</p>
+<p>jump 会让程序执行流跳转到指定位置执行，其行为（程序的表现行为）不可控制</p>
+<p>jump使用有一个注意事项：如果jump跳转到的位置后续没有断点，那么GDB会执行完跳转处的代码后会继续执行（跳完不停止）</p>
+<p>jump有一个妙用就是可以执行一些我们想要执行的代码，而这些代码在正常的逻辑下可能并不会执行（这样做会产生一些意外的结果，需要读者自行斟酌使用）</p>
+</li>
+<li><p><code>set args</code> 和 <code>show args</code></p>
+<p>很多程序需要我们传递命令行参数。在GDB调试的过程中，正确的传递命令行参数的做法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$gdb filename 	//启动gdb</span><br><span class="line">$set args		//传递参数	</span><br><span class="line">$run			//运行</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>tbreak</code></p>
+<p>临时断点，一旦该断点触发一次后就会自动删除</p>
+</li>
+<li><p><code>watch</code></p>
+<p>watch 是一个强大的命令，它可以用来监视一个变量或者一段内存，当这个变量或者该内存处的值发生变化时，GDB就会中断下来</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/shell/" rel="tag"># shell</a>
+              <a href="/tags/gdb/" rel="tag"># gdb</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/28/Python-Web%E6%A1%86%E6%9E%B6%E4%B9%8BDjango%E4%BD%BF%E7%94%A8/" rel="prev" title="Python_Web框架之Django使用">
+      <i class="fa fa-chevron-left"></i> Python_Web框架之Django使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/05/apue-%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E7%AE%80%E8%A6%81%E6%8F%8F%E8%BF%B0/" rel="next" title="apue_第一部分_简要描述">
+      apue_第一部分_简要描述 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GDB-学习"><span class="nav-text">GDB 学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-GDB-调试程序的三种方式（从应用场景出发）"><span class="nav-text">1. GDB 调试程序的三种方式（从应用场景出发）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-GDB-常用调试命令一览"><span class="nav-text">2. GDB 常用调试命令一览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-常用命令解析及对比"><span class="nav-text">3. 常用命令解析及对比</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">PeaceZH</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pureteufel" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pureteufel" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:Infinity_1314@gmail.com" title="E-Mail → mailto:Infinity_1314@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">PeaceZH</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

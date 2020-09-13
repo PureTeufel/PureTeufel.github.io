@@ -1,9 +1,363 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hexo_Next博客安装及配置</title>
+    <title>apue-第三部分-进程.md</title>
+    <url>/2020/09/06/apue-%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E8%BF%9B%E7%A8%8B-md/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>链接_装载和库.md</title>
+    <url>/2020/09/05/%E9%93%BE%E6%8E%A5-%E8%A3%85%E8%BD%BD%E5%92%8C%E5%BA%93-md/</url>
+    <content><![CDATA[<h2 id="可执行文件结构"><a href="#可执行文件结构" class="headerlink" title="可执行文件结构"></a>可执行文件结构</h2><h2 id="动态链接技术"><a href="#动态链接技术" class="headerlink" title="动态链接技术"></a>动态链接技术</h2><ul>
+<li><p>PIC</p>
+</li>
+<li><p>GOT</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>linker</category>
+        <category>loader</category>
+        <category>lib</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>tcpip_programming</title>
+    <url>/2020/08/24/tcpip-programming/</url>
+    <content><![CDATA[<h1 id="TCP-IP-网络编程"><a href="#TCP-IP-网络编程" class="headerlink" title="TCP/IP 网络编程"></a>TCP/IP 网络编程</h1><h2 id="基本编程模型"><a href="#基本编程模型" class="headerlink" title="基本编程模型"></a>基本编程模型</h2><p>TODO ：此处放置基本流程框架</p>
+<p>TODO ：此处放置三次握手、四次挥手流程</p>
+<p>TODO ：此处说明必要的函数</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ol>
+<li><p>阻塞</p>
+</li>
+<li><p>内核IO、用户IO</p>
+</li>
+<li><p>注册</p>
+</li>
+</ol>
+<h2 id="并发服务器"><a href="#并发服务器" class="headerlink" title="并发服务器"></a>并发服务器</h2><ol>
+<li><p>多线程技术</p>
+</li>
+<li><p>IO复用技术</p>
+</li>
+</ol>
+<h4 id="僵尸进程"><a href="#僵尸进程" class="headerlink" title="僵尸进程"></a>僵尸进程</h4><h4 id="函数汇总"><a href="#函数汇总" class="headerlink" title="函数汇总"></a>函数汇总</h4><ul>
+<li><code>readv</code> and <code>writev</code></li>
+</ul>
+<h4 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h4><ol>
+<li>隧道（Tunneling）技术</li>
+</ol>
+<h4 id="问题汇总"><a href="#问题汇总" class="headerlink" title="问题汇总"></a>问题汇总</h4><ol>
+<li>child process 究竟复制了 father process 什么？ 数据？ 代码？</li>
+</ol>
+]]></content>
+      <categories>
+        <category>os</category>
+        <category>network</category>
+      </categories>
+      <tags>
+        <tag>tcp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git_常用命令</title>
+    <url>/2020/08/18/git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="git-常用命令的使用方法"><a href="#git-常用命令的使用方法" class="headerlink" title="git 常用命令的使用方法"></a>git 常用命令的使用方法</h1><h2 id="1-全局配置"><a href="#1-全局配置" class="headerlink" title="1. 全局配置"></a>1. 全局配置</h2><h4 id="1-1-设置用户信息"><a href="#1-1-设置用户信息" class="headerlink" title="1.1 设置用户信息"></a>1.1 设置用户信息</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;[name]&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-设置邮箱信息"><a href="#1-2-设置邮箱信息" class="headerlink" title="1.2 设置邮箱信息"></a>1.2 设置邮箱信息</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.email &quot;[email address]&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-远程仓库"><a href="#2-远程仓库" class="headerlink" title="2. 远程仓库"></a>2. 远程仓库</h2><h4 id="2-1-关联远程仓库"><a href="#2-1-关联远程仓库" class="headerlink" title="2.1 关联远程仓库"></a>2.1 关联远程仓库</h4><h5 id="2-1-1-创建SSH-Key"><a href="#2-1-1-创建SSH-Key" class="headerlink" title="2.1.1 创建SSH Key"></a>2.1.1 创建SSH Key</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;email address&quot;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-1-2-上传公钥"><a href="#2-1-2-上传公钥" class="headerlink" title="2.1.2 上传公钥"></a>2.1.2 上传公钥</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin &quot;[repository address]&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-远程仓库同步-synchronize"><a href="#2-2-远程仓库同步-synchronize" class="headerlink" title="2.2 远程仓库同步(synchronize)"></a>2.2 远程仓库同步(synchronize)</h4><h5 id="2-2-1-上传-upload"><a href="#2-2-1-上传-upload" class="headerlink" title="2.2.1 上传(upload)"></a>2.2.1 上传(upload)</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push [alias] [branch]</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux_常用命令汇总</title>
+    <url>/2020/08/16/linux-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h3 id="1-包管理"><a href="#1-包管理" class="headerlink" title="1. 包管理"></a>1. 包管理</h3><h4 id="1-1-debian-ubuntu"><a href="#1-1-debian-ubuntu" class="headerlink" title="1.1 debian(ubuntu)"></a>1.1 debian(ubuntu)</h4><h4 id="1-2-rehat-fedora-centos"><a href="#1-2-rehat-fedora-centos" class="headerlink" title="1.2 rehat(fedora/centos)"></a>1.2 rehat(fedora/centos)</h4><h4 id="1-3-arch-manjaro"><a href="#1-3-arch-manjaro" class="headerlink" title="1.3 arch(manjaro)"></a>1.3 arch(manjaro)</h4><h3 id="2-文件操作"><a href="#2-文件操作" class="headerlink" title="2. 文件操作"></a>2. 文件操作</h3><h4 id="1-1-创建"><a href="#1-1-创建" class="headerlink" title="1.1 创建"></a>1.1 创建</h4><h4 id="1-2-复制"><a href="#1-2-复制" class="headerlink" title="1.2 复制"></a>1.2 复制</h4><h4 id="1-3-移动"><a href="#1-3-移动" class="headerlink" title="1.3 移动"></a>1.3 移动</h4><h4 id="1-4-删除"><a href="#1-4-删除" class="headerlink" title="1.4 删除"></a>1.4 删除</h4><h4 id="1-5-修改"><a href="#1-5-修改" class="headerlink" title="1.5 修改"></a>1.5 修改</h4><h4 id="1-6-查看"><a href="#1-6-查看" class="headerlink" title="1.6 查看"></a>1.6 查看</h4><h4 id="1-7-搜索"><a href="#1-7-搜索" class="headerlink" title="1.7 搜索"></a>1.7 搜索</h4><h3 id="3-进程相关"><a href="#3-进程相关" class="headerlink" title="3. 进程相关"></a>3. 进程相关</h3><ul>
+<li><p><code>top</code></p>
+</li>
+<li><p><code>ps</code></p>
+</li>
+<li><p><code>kill</code>  </p>
+</li>
+</ul>
+<h3 id="4-系统信息相关"><a href="#4-系统信息相关" class="headerlink" title="4. 系统信息相关"></a>4. 系统信息相关</h3><h3 id="5-网络相关"><a href="#5-网络相关" class="headerlink" title="5. 网络相关"></a>5. 网络相关</h3><ul>
+<li><p><code>netstat</code></p>
+</li>
+<li><p><code>ip</code> and <code>ifconfig</code></p>
+</li>
+<li><p><code>telnet</code></p>
+</li>
+<li><p><code>ping</code></p>
+</li>
+<li><p><code>nc</code></p>
+</li>
+<li><p><code>lsof</code></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>apue-第二部分-IO</title>
+    <url>/2020/08/05/apue-%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-IO/</url>
+    <content><![CDATA[<h2 id="1-基本知识点"><a href="#1-基本知识点" class="headerlink" title="1. 基本知识点"></a>1. 基本知识点</h2><ul>
+<li><p>不带缓冲IO</p>
+</li>
+<li><p>文件描述（对于内核而言）</p>
+</li>
+<li><p>open close read write</p>
+</li>
+</ul>
+<blockquote>
+<p>具体函数原型参考手册</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="2-系统调用函数"><a href="#2-系统调用函数" class="headerlink" title="2. 系统调用函数"></a>2. 系统调用函数</h2><ul>
+<li><h2 id="3-头文件说明"><a href="#3-头文件说明" class="headerlink" title="3. 头文件说明"></a>3. 头文件说明</h2></li>
+<li></li>
+</ul>
+]]></content>
+      <categories>
+        <category>OS</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>apue_第一部分_简要描述</title>
+    <url>/2020/08/05/apue-%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E7%AE%80%E8%A6%81%E6%8F%8F%E8%BF%B0/</url>
+    <content><![CDATA[<h4 id="1-UNIX-操作系统的体系结构"><a href="#1-UNIX-操作系统的体系结构" class="headerlink" title="1. UNIX 操作系统的体系结构"></a>1. UNIX 操作系统的体系结构</h4><a id="more"></a>]]></content>
+      <categories>
+        <category>os</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux_常用命令总结</title>
+    <url>/2020/08/02/GDB_%E8%B0%83%E8%AF%95%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h2 id="GDB-学习"><a href="#GDB-学习" class="headerlink" title="GDB 学习"></a>GDB 学习</h2><h4 id="1-GDB-调试程序的三种方式（从应用场景出发）"><a href="#1-GDB-调试程序的三种方式（从应用场景出发）" class="headerlink" title="1. GDB 调试程序的三种方式（从应用场景出发）"></a>1. GDB 调试程序的三种方式（从应用场景出发）</h4><ul>
+<li><p>gdb filename</p>
+<p>直接调试编译后生成的二进制文件</p>
+</li>
+<li><p>gdb attach pid</p>
+<p>调制某个正在运行的程序，通过任务管理命令（例如ps、top）获取pid</p>
+</li>
+<li><p>gdb filename corename</p>
+<p>core文件：一般在程序崩溃时会产生core文件</p>
+<p>linux系统一般默认不开启崩溃产生core文件这一机制，可以使用命令 <code>ulimit</code> 进行查看、修改等操作</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<h4 id="2-GDB-常用调试命令一览"><a href="#2-GDB-常用调试命令一览" class="headerlink" title="2. GDB 常用调试命令一览"></a>2. GDB 常用调试命令一览</h4><table>
+<thead>
+<tr>
+<th align="center">命令名称</th>
+<th align="center">命令缩写</th>
+<th align="center">命令说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">run</td>
+<td align="center">r</td>
+<td align="center">运行一个程序</td>
+</tr>
+<tr>
+<td align="center">continue</td>
+<td align="center">c</td>
+<td align="center">让暂停的程序继续执行</td>
+</tr>
+<tr>
+<td align="center">next</td>
+<td align="center">n</td>
+<td align="center">运行到下一行，相当于step over</td>
+</tr>
+<tr>
+<td align="center">step</td>
+<td align="center">s</td>
+<td align="center">如果有函数调用，进入函数调用内部，相当于step into</td>
+</tr>
+<tr>
+<td align="center">until</td>
+<td align="center">u</td>
+<td align="center">运行到指定行停下来</td>
+</tr>
+<tr>
+<td align="center">finish</td>
+<td align="center">fi</td>
+<td align="center">结束当前调用函数，到上一层函数调用处</td>
+</tr>
+<tr>
+<td align="center">return</td>
+<td align="center">return</td>
+<td align="center">结束当前函数调用并返回指定值，到上一层函数调用处</td>
+</tr>
+<tr>
+<td align="center">jump</td>
+<td align="center">j</td>
+<td align="center">将当前程序执行流跳转到指定行或地址</td>
+</tr>
+<tr>
+<td align="center">print</td>
+<td align="center">p</td>
+<td align="center">打印变量或寄存器值</td>
+</tr>
+<tr>
+<td align="center">backtrace</td>
+<td align="center">bt</td>
+<td align="center">查看当前线程的调用堆栈</td>
+</tr>
+<tr>
+<td align="center">frame</td>
+<td align="center">f</td>
+<td align="center">切换到当前调用线程的制定堆栈，具体堆栈通过堆栈序号指定</td>
+</tr>
+<tr>
+<td align="center">thread</td>
+<td align="center">thread</td>
+<td align="center">切换到指定线程</td>
+</tr>
+<tr>
+<td align="center">break</td>
+<td align="center">b</td>
+<td align="center">添加断点</td>
+</tr>
+<tr>
+<td align="center">tbreak</td>
+<td align="center">tb</td>
+<td align="center">添加临时断点</td>
+</tr>
+<tr>
+<td align="center">delete</td>
+<td align="center">del</td>
+<td align="center">删除断点</td>
+</tr>
+<tr>
+<td align="center">enable</td>
+<td align="center">enable</td>
+<td align="center">启动某个断点</td>
+</tr>
+<tr>
+<td align="center">disable</td>
+<td align="center">disable</td>
+<td align="center">禁用某个断点</td>
+</tr>
+<tr>
+<td align="center">watch</td>
+<td align="center">watch</td>
+<td align="center">监视某一个变量或内存地址的值是否发生变化</td>
+</tr>
+<tr>
+<td align="center">list</td>
+<td align="center">l</td>
+<td align="center">显示源码</td>
+</tr>
+<tr>
+<td align="center">info</td>
+<td align="center">info</td>
+<td align="center">查看断点/线程等信息</td>
+</tr>
+<tr>
+<td align="center">ptype</td>
+<td align="center">ptype</td>
+<td align="center">查看变量类型</td>
+</tr>
+<tr>
+<td align="center">disassemble</td>
+<td align="center">dis</td>
+<td align="center">查看汇编代码</td>
+</tr>
+<tr>
+<td align="center">set args</td>
+<td align="center"></td>
+<td align="center">设置程序启动命令行参数</td>
+</tr>
+<tr>
+<td align="center">show args</td>
+<td align="center"></td>
+<td align="center">查看设置的命令行参数</td>
+</tr>
+</tbody></table>
+<h4 id="3-常用命令解析及对比"><a href="#3-常用命令解析及对比" class="headerlink" title="3. 常用命令解析及对比"></a>3. 常用命令解析及对比</h4><ul>
+<li><p><code>next</code> VS <code>step</code> </p>
+<p>跳转到下一条指令执行处，按 <code>Enter</code> 键可以代替</p>
+</li>
+<li><p><code>finish</code> VS <code>return</code></p>
+<p>finish 命令会执行函数到正常退出该函数</p>
+<p>return 命令会立即结束执行当前函数并返回</p>
+</li>
+<li><p><code>until</code> VS <code>jump</code></p>
+<p>until 跳转到指定行会快速执行完中间的代码（跳完停止）</p>
+<p>jump 会让程序执行流跳转到指定位置执行，其行为（程序的表现行为）不可控制</p>
+<p>jump使用有一个注意事项：如果jump跳转到的位置后续没有断点，那么GDB会执行完跳转处的代码后会继续执行（跳完不停止）</p>
+<p>jump有一个妙用就是可以执行一些我们想要执行的代码，而这些代码在正常的逻辑下可能并不会执行（这样做会产生一些意外的结果，需要读者自行斟酌使用）</p>
+</li>
+<li><p><code>set args</code> 和 <code>show args</code></p>
+<p>很多程序需要我们传递命令行参数。在GDB调试的过程中，正确的传递命令行参数的做法是：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$gdb filename 	//启动gdb</span><br><span class="line">$set args		//传递参数	</span><br><span class="line">$run			//运行</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>tbreak</code></p>
+<p>临时断点，一旦该断点触发一次后就会自动删除</p>
+</li>
+<li><p><code>watch</code></p>
+<p>watch 是一个强大的命令，它可以用来监视一个变量或者一段内存，当这个变量或者该内存处的值发生变化时，GDB就会中断下来</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>shell</tag>
+        <tag>gdb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python_Web框架之Django使用</title>
+    <url>/2020/07/28/Python-Web%E6%A1%86%E6%9E%B6%E4%B9%8BDjango%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="1-准备阶段"><a href="#1-准备阶段" class="headerlink" title="1. 准备阶段"></a>1. 准备阶段</h2><h3 id="1-1-安装"><a href="#1-1-安装" class="headerlink" title="1.1 安装"></a>1.1 安装</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install -user django</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-使用帮助"><a href="#1-2-使用帮助" class="headerlink" title="1.2 使用帮助"></a>1.2 使用帮助</h3><p>详见<a href="https://docs.djangoproject.com/en/3.0/" target="_blank" rel="noopener">链接</a></p>
+<h2 id="2-建立项目"><a href="#2-建立项目" class="headerlink" title="2. 建立项目"></a>2. 建立项目</h2><p>Django 项目由一系列应用程序组成，它们协同工作，让项目成为一个整体。</p>
+]]></content>
+      <categories>
+        <category>Program Language</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Django</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo_Next安装及配置</title>
     <url>/2020/03/20/Hexo-Next%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h1 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h1><h2 id="1-1-依赖安装"><a href="#1-1-依赖安装" class="headerlink" title="1.1 依赖安装"></a>1.1 依赖安装</h2><ul>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <p>是非成败转头空，青山依旧在，几度夕阳红。<br><strong>临江仙 [明] 杨慎</strong></p>
+
+          </blockquote>
+
+<h1 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h1><h2 id="1-1-依赖安装"><a href="#1-1-依赖安装" class="headerlink" title="1.1 依赖安装"></a>1.1 依赖安装</h2><ul>
 <li><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git</a> </li>
 <li><a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">node.js</a> </li>
 </ul>
@@ -15,6 +369,10 @@
 
 <blockquote>
 <p>hexo常用命令</p>
+<p>hexo clean</p>
+<p>hexo generate</p>
+<p>hexo deploy</p>
+<p>hexo server</p>
 </blockquote>
 <h2 id="1-4-部署"><a href="#1-4-部署" class="headerlink" title="1.4 部署"></a>1.4 部署</h2><h3 id="1-4-1-命令式简单快速的方法"><a href="#1-4-1-命令式简单快速的方法" class="headerlink" title="1.4.1 命令式简单快速的方法"></a>1.4.1 命令式简单快速的方法</h3><ul>
 <li><p>登录 <code>github</code>，创建 <code>&lt;username&gt;.github.io</code> 仓库</p>
@@ -25,11 +383,11 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span> </span><br><span class="line"><span class="attr">    type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">    repo:</span> <span class="attr">https://github.com/&lt;user_name&gt;/&lt;user_name&gt;.github.io</span></span><br><span class="line"><span class="attr">    branch:</span> <span class="string">&lt;branch&gt;</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>用hexo命令一键发布</li>
+<li>用hexo命令一键推送</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
 
-<h1 id="2-简单配置"><a href="#2-简单配置" class="headerlink" title="2. 简单配置"></a>2. 简单配置</h1><h1 id="3-高级配置"><a href="#3-高级配置" class="headerlink" title="3. 高级配置"></a>3. 高级配置</h1>]]></content>
+<h1 id="2-简单配置"><a href="#2-简单配置" class="headerlink" title="2. 简单配置"></a>2. 简单配置</h1><h2 id="2-1-基本信息"><a href="#2-1-基本信息" class="headerlink" title="2.1 基本信息"></a>2.1 基本信息</h2><h2 id="2-2-字体"><a href="#2-2-字体" class="headerlink" title="2.2 字体"></a>2.2 字体</h2><h2 id="2-3-图片"><a href="#2-3-图片" class="headerlink" title="2.3 图片"></a>2.3 图片</h2><h1 id="3-高级配置"><a href="#3-高级配置" class="headerlink" title="3. 高级配置"></a>3. 高级配置</h1><h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
       <categories>
         <category>Tools</category>
       </categories>
